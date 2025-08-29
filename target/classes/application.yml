@@ -1,0 +1,55 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: webhook-solver
+  
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  webflux:
+    base-path: /api
+
+app:
+  candidate:
+    name: "John Doe"
+    regNo: "REG12347"
+    email: "john@example.com"
+  
+  endpoints:
+    generate-webhook: "https://bfhldevapigw.healthrx.co.in/hiring/generateWebhook/JAVA"
+    default-submit: "https://bfhldevapigw.healthrx.co.in/hiring/testWebhook/JAVA"
+  
+  webclient:
+    timeout: 30s
+    retry:
+      max-attempts: 3
+      backoff:
+        initial: 1s
+        multiplier: 2.0
+        max: 10s
+
+logging:
+  level:
+    com.example.webhooksolver: DEBUG
+    org.springframework.web.reactive: DEBUG
+    org.springframework.data.jpa: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
